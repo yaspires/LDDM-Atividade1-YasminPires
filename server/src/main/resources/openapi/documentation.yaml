@@ -1,0 +1,222 @@
+openapi: 3.0.3
+info:
+  title: API LDDM - Movies
+  description: API de gerenciamento de filmes e diretores
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080
+    description: Servidor de Desenvolvimento Local
+
+tags:
+  - name: Diretores
+    description: Gerenciamento de diretores
+  - name: Filmes
+    description: Gerenciamento de filmes
+
+paths:
+
+  /directors:
+    get:
+      tags: [Diretores]
+      summary: Listar todos os diretores
+      responses:
+        '200':
+          description: Lista de diretores
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Director'
+
+    post:
+      tags: [Diretores]
+      summary: Criar um diretor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Director'
+      responses:
+        '201':
+          description: Diretor criado
+
+  /directors/{id}:
+    get:
+      tags: [Diretores]
+      summary: Buscar diretor por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Diretor encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Director'
+        '404':
+          description: Diretor não encontrado
+
+    put:
+      tags: [Diretores]
+      summary: Atualizar diretor
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Director'
+      responses:
+        '200':
+          description: Diretor atualizado
+
+    delete:
+      tags: [Diretores]
+      summary: Deletar diretor
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Diretor removido
+
+  /movies:
+    get:
+      tags: [Filmes]
+      summary: Listar todos os filmes
+      responses:
+        '200':
+          description: Lista de filmes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Movie'
+
+    post:
+      tags: [Filmes]
+      summary: Criar um filme
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Movie'
+      responses:
+        '201':
+          description: Filme criado
+
+  /movies/{id}:
+    get:
+      tags: [Filmes]
+      summary: Buscar filme por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Filme encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Movie'
+        '404':
+          description: Filme não encontrado
+
+    put:
+      tags: [Filmes]
+      summary: Atualizar filme
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Movie'
+      responses:
+        '200':
+          description: Filme atualizado
+
+    delete:
+      tags: [Filmes]
+      summary: Deletar filme
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Filme removido
+
+  /directors/{id}/movies:
+    get:
+      tags: [Filmes]
+      summary: Listar filmes de um diretor
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Lista de filmes do diretor
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Movie'
+
+components:
+  schemas:
+
+    Director:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        age:
+          type: integer
+
+    Movie:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+        year:
+          type: integer
+        director_id:
+          type: integer
